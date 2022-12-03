@@ -1,20 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import "./NewTask.css";
 
-const NewTask = () => {
+const NewTask = (props) => {
+  const [newTaskText, setNewTaskText] = useState("");
+
   const addTaskHandler = (event) => {
     event.preventDefault();
-    const newGoal = {
+
+    if (newTaskText === "") return;
+
+    const newTask = {
       id: Math.random().toString(),
-      text: "My new cute goal!",
+      text: newTaskText,
     };
 
-    console.log(newGoal);
+    props.onAddTask(newTask);
+
+    setNewTaskText("");
   };
 
   return (
     <form onSubmit={addTaskHandler}>
-      <input type="text" />
+      <input
+        type="text"
+        value={newTaskText}
+        onChange={(e) => setNewTaskText(e.target.value)}
+      />
       <button>Add Task</button>
     </form>
   );
